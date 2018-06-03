@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.silas.wsspring.domain.Categoria;
 import com.silas.wsspring.domain.Cidade;
+import com.silas.wsspring.domain.Cliente;
+import com.silas.wsspring.domain.Endereco;
 import com.silas.wsspring.domain.Estado;
 import com.silas.wsspring.domain.Produto;
+import com.silas.wsspring.domain.enums.TipoCliente;
 import com.silas.wsspring.repositories.CategoriaRepository;
 import com.silas.wsspring.repositories.CidadeRepository;
+import com.silas.wsspring.repositories.ClienteRepository;
+import com.silas.wsspring.repositories.EnderecoRepository;
 import com.silas.wsspring.repositories.EstadoRepository;
 import com.silas.wsspring.repositories.ProdutoRepository;
 
@@ -30,6 +35,12 @@ public class WsspringApplication implements CommandLineRunner {
 	
 	@Autowired
 	private EstadoRepository estadoRepository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(WsspringApplication.class, args);
@@ -66,5 +77,18 @@ public class WsspringApplication implements CommandLineRunner {
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("9999-9999", "8888-8888"));
+		
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220234", cli1, c1);
+		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		
 	}
+
 }
