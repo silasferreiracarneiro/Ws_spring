@@ -5,20 +5,19 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.silas.wsspring.domain.Cliente;
-import com.silas.wsspring.repositories.ClienteRepository;
+import com.silas.wsspring.domain.Pedido;
+import com.silas.wsspring.repositories.PedidoRepository;
 import com.silas.wsspring.services.exceptions.ObjectNotFoundException;
 
 @Service
-public class ClienteService {
+public class PedidoService {
 
 	@Autowired
-	private ClienteRepository repo;
+	private PedidoRepository repo;
 
-	public Cliente buscar(Integer id) {
-		Optional<Cliente> obj = repo.findById(id);
-		
+	public Pedido buscar(Integer id) {
+		Optional<Pedido> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
-				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName() + ""));
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Pedido.class.getName() + ""));
 	}
 }
