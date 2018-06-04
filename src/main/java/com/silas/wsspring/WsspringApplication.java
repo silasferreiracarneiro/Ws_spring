@@ -13,6 +13,7 @@ import com.silas.wsspring.domain.Cidade;
 import com.silas.wsspring.domain.Cliente;
 import com.silas.wsspring.domain.Endereco;
 import com.silas.wsspring.domain.Estado;
+import com.silas.wsspring.domain.ItemPedido;
 import com.silas.wsspring.domain.Pagamento;
 import com.silas.wsspring.domain.PagamentoComBoleto;
 import com.silas.wsspring.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.silas.wsspring.repositories.CidadeRepository;
 import com.silas.wsspring.repositories.ClienteRepository;
 import com.silas.wsspring.repositories.EnderecoRepository;
 import com.silas.wsspring.repositories.EstadoRepository;
+import com.silas.wsspring.repositories.ItemPedidoRepository;
 import com.silas.wsspring.repositories.PagamentoRepository;
 import com.silas.wsspring.repositories.PedidoRepository;
 import com.silas.wsspring.repositories.ProdutoRepository;
@@ -56,6 +58,8 @@ public class WsspringApplication implements CommandLineRunner {
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
 	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(WsspringApplication.class, args);
@@ -119,6 +123,19 @@ public class WsspringApplication implements CommandLineRunner {
 		
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pag1, pag2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.0, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.0, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 	}
 
 }
