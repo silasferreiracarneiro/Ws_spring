@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.silas.wsspring.domain.Categoria;
+import com.silas.wsspring.dto.CategoriaDTO;
 import com.silas.wsspring.repositories.CategoriaRepository;
 import com.silas.wsspring.services.exceptions.DataIntegrityException;
 import com.silas.wsspring.services.exceptions.ObjectNotFoundException;
@@ -52,7 +53,11 @@ public class CategoriaService {
 	}
 	
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
-		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
+	}
+	
+	public Categoria fromDTO(CategoriaDTO obj) {
+		return new Categoria(obj.getId(), obj.getNome());
 	}
 }
