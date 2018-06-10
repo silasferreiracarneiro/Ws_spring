@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.silas.wsspring.domain.Cliente;
 import com.silas.wsspring.dto.ClienteDTO;
+import com.silas.wsspring.dto.ClienteNewDTO;
 import com.silas.wsspring.services.ClienteService;
 
 @RestController
@@ -44,6 +46,16 @@ public class ClienteResource {
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{/id}")
 				.buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+	
+	@RequestMapping(value="/InsertValue" ,method=RequestMethod.POST)
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto){
+		Cliente objCliente = service.fromDTO(objDto);
+		objCliente = service.insert(objCliente);
+		
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{/id}")
+				.buildAndExpand(objCliente.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
